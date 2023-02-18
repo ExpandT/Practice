@@ -1,0 +1,4 @@
+name: Practice
+version: '${version}'
+main: me.illia.practice.Practice
+api-version: 1.16
