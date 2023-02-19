@@ -1,14 +1,17 @@
 package me.illia.practice
 
+import me.illia.practice.commands.SetRank
 import me.illia.practice.listeners.PlayerEventListener
 import org.bukkit.plugin.java.JavaPlugin
 
 class Practice: JavaPlugin() {
 
-    private lateinit var main: Practice
+    companion object {
+        lateinit var INSTANCE: Practice
+    }
 
     override fun onEnable() {
-        main = this
+        INSTANCE = this
 
         logger.info("IT WORKSSSSS")
 
@@ -16,13 +19,14 @@ class Practice: JavaPlugin() {
         saveConfig()
 
         registerEvents()
-    }
-
-    fun getMain(): Practice {
-        return main
+        registerCommands()
     }
 
     private fun registerEvents() {
         server.pluginManager.registerEvents(PlayerEventListener, this)
+    }
+
+    private fun registerCommands() {
+        getCommand("setRank")?.setExecutor(SetRank)
     }
 }

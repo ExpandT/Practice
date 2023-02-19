@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 class RankManager {
 
     fun setRank(rank: Rank, player: Player) {
-        val main: Practice = Practice().getMain()
+        val main: Practice = Practice.INSTANCE
         val config: FileConfiguration = main.config
         val uuid = player.uniqueId.toString()
 
@@ -19,10 +19,14 @@ class RankManager {
 
 
     fun getRank(player: Player): Rank {
-        val main: Practice = Practice().getMain()
+        val main: Practice = Practice.INSTANCE
         val config: FileConfiguration = main.config
 
-        return Rank.valueOf(config.getString(player.uniqueId.toString()).toString())
+        return if(config.getString(player.uniqueId.toString()) is String) {
+            Rank.valueOf(config.getString(player.uniqueId.toString()).toString())
+        } else {
+            Rank.USER
+        }
     }
 
 }

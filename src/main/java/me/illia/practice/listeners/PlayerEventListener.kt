@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerBedEnterEvent
 import org.bukkit.event.player.PlayerHarvestBlockEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -19,7 +20,7 @@ object PlayerEventListener: Listener {
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         event.player.sendMessage("${ChatColor.GOLD}Hey, Bro ;)")
-        val main: Practice = Practice().getMain()
+        val main: Practice = Practice.INSTANCE
         val config: FileConfiguration = main.config
         val player = event.player
         val uuid = player.uniqueId.toString()
@@ -29,20 +30,24 @@ object PlayerEventListener: Listener {
         }
 
         NameTagManager().setNameTags(player)
-        NameTagManager().newTag(player)
+    }
+
+    @EventHandler
+    fun onPlayerChat(event: AsyncPlayerChatEvent) {
+        event.format = RankManager().getRank(event.player).prefix + "${ChatColor.WHITE} | "  + event.player.name + ": " + event.message
     }
 
     @EventHandler
     fun onBedEnter(event: PlayerBedEnterEvent) {
-        val player: Player = event.player;
-        event.isCancelled = true;
+        val player: Player = event.player
+        event.isCancelled = true
 
         player.sendMessage("${ChatColor.BLUE}Hey ${player.name}, you can't sleep on this Server")
     }
 
     @EventHandler
     fun onBlockHarvest(event: PlayerHarvestBlockEvent) {
-        val harvestedBlock = event.harvestedBlock;
+        val harvestedBlock = event.harvestedBlock
         for (player in Bukkit.getOnlinePlayers()) {
             player.sendMessage("${ChatColor.RED}${event.player.name} has harvested ${harvestedBlock.type} at ${harvestedBlock.getLocation()}")
         }

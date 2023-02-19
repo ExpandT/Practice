@@ -1,4 +1,11 @@
 name: Practice
-version: '${version}'
+version: '1.0'
 main: me.illia.practice.Practice
 api-version: 1.16
+
+
+commands:
+  setRank:
+    description: 'Set rank to player'
+    usage: /<command> Player Rank
+    permission: default
