@@ -6,14 +6,13 @@ import me.illia.practice.managers.RankManager
 import me.illia.practice.storage.Rank
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.bukkit.event.player.PlayerBedEnterEvent
-import org.bukkit.event.player.PlayerHarvestBlockEvent
-import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.block.Action
+import org.bukkit.event.player.*
 
 object PlayerEventListener: Listener {
 
@@ -51,5 +50,28 @@ object PlayerEventListener: Listener {
         for (player in Bukkit.getOnlinePlayers()) {
             player.sendMessage("${ChatColor.RED}${event.player.name} has harvested ${harvestedBlock.type} at ${harvestedBlock.getLocation()}")
         }
+    }
+
+    @EventHandler
+    fun onRightClick(event: PlayerInteractEvent) {
+        val player = event.player
+        val block = event.clickedBlock
+
+        if (event.action == Action.RIGHT_CLICK_BLOCK) {
+            if (player.inventory.itemInMainHand.itemMeta.getDisplayName() == "Diamond Wand") {
+                block?.type = Material.DIAMOND_BLOCK
+            }
+        }
+
+        if (event.action == Action.RIGHT_CLICK_AIR) {
+            if (player.inventory.itemInMainHand.itemMeta.getDisplayName() == "Teleporter") {
+                val targetedBlock = player.getTargetBlock(null, 100)
+                if(targetedBlock.type == Material.AIR) return
+
+                player.teleport(targetedBlock.location)
+                player.sendMessage("${ChatColor.LIGHT_PURPLE}TELEPORTED")
+            }
+        }
+
     }
 }

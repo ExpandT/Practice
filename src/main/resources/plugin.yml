@@ -9,3 +9,15 @@ commands:
     description: 'Set rank to player'
     usage: /<command> Player Rank
     permission: default
+  openMenu:
+    description: 'Open gui menu'
+    usage: /<command>
+    permission: default
+  magicWand:
+    description: 'Gives to executor magic wand'
+    usage: /<command>
+    permission: default
+  teleporter:
+    description: 'Gives to executor teleporter'
+    usage: /<command>
+    permission: default
