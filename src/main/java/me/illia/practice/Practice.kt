@@ -1,8 +1,8 @@
 package me.illia.practice
 
 import me.illia.practice.commands.MagicWand
-import me.illia.practice.commands.SetRank
 import me.illia.practice.commands.OpenMenu
+import me.illia.practice.commands.SetRank
 import me.illia.practice.commands.TeleportWand
 import me.illia.practice.listeners.PlayerEventListener
 import org.bukkit.plugin.java.JavaPlugin
@@ -36,4 +36,5 @@ class Practice: JavaPlugin() {
         getCommand("teleporter")?.setExecutor(TeleportWand)
 
     }
+
 }
