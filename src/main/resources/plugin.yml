@@ -21,3 +21,11 @@ commands:
     description: 'Gives to executor teleporter'
     usage: /<command>
     permission: default
+  setprefix:
+    description: 'Changes player prefix'
+    usage: /<command>
+    permission: default
+  openPrefixMenu:
+    description: 'Open prefix gui'
+    usage: /<command> Player Rank
+    permission: default

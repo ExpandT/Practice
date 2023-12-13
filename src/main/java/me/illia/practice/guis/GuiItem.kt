@@ -3,6 +3,7 @@ package me.illia.practice.guis
 import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 
 interface GuiItem {
     fun onClick(event: InventoryClickEvent)
@@ -11,10 +12,16 @@ interface GuiItem {
 
     class Builder {
         private var material: Material = Material.AIR
+        private var displayName = ""
         private var onClick: ((InventoryClickEvent) -> Unit)? = null
 
         fun stack(material: Material): Builder {
             this.material = material
+            return this
+        }
+
+        fun displayName(name: String): Builder {
+            this.displayName = name
             return this
         }
 
@@ -32,7 +39,14 @@ interface GuiItem {
                 }
 
                 override fun toItemStack(): ItemStack {
-                    return ItemStack(material)
+                    val itemStack = ItemStack(material)
+                    val meta: ItemMeta = itemStack.itemMeta
+
+                    meta.setDisplayName(displayName)
+
+                    itemStack.itemMeta = meta
+
+                    return itemStack
                 }
             }
         }

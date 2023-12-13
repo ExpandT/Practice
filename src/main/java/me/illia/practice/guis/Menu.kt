@@ -27,13 +27,4 @@ class Menu: BasicGui(27, "NewYear is coming!!!") {
         addItem(diamondItem, 12)
     }
 
-    override fun onClick(event: InventoryClickEvent) {
-        if (event.inventory == inventory) {
-            event.isCancelled = true
-            val clickedSlot = event.slot
-            val guiItem = items[clickedSlot]
-            guiItem?.onClick(event)
-        }
-    }
-
 }

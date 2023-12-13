@@ -18,7 +18,14 @@ abstract class BasicGui( guiSize: Int = 9, guiName: String = "Default") : Invent
 
     abstract fun initialize()
 
-    abstract fun onClick(event: InventoryClickEvent)
+    fun onClick(event: InventoryClickEvent) {
+        if (event.inventory == inventory) {
+            event.isCancelled = true
+            val clickedSlot = event.slot
+            val guiItem = items[clickedSlot]
+            guiItem?.onClick(event)
+        }
+    }
 
     fun addItem(item: GuiItem, slot: Int) {
         items[slot] = item

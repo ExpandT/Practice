@@ -1,11 +1,9 @@
 package me.illia.practice
 
-import me.illia.practice.commands.MagicWand
-import me.illia.practice.commands.OpenMenu
-import me.illia.practice.commands.SetRank
-import me.illia.practice.commands.TeleportWand
+import me.illia.practice.commands.*
 import me.illia.practice.listeners.GuiListener
 import me.illia.practice.listeners.PlayerEventListener
+import me.illia.practice.managers.PrefixManager
 import org.bukkit.plugin.java.JavaPlugin
 
 class Practice: JavaPlugin() {
@@ -36,7 +34,8 @@ class Practice: JavaPlugin() {
         getCommand("openMenu")?.setExecutor(OpenMenu)
         getCommand("magicWand")?.setExecutor(MagicWand)
         getCommand("teleporter")?.setExecutor(TeleportWand)
-
+        getCommand("setprefix")?.setExecutor(SetPrefix(this ,PrefixManager()))
+        getCommand("openPrefixMenu")?.setExecutor(OpenPrefixMenu)
     }
 
 }

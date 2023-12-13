@@ -4,6 +4,7 @@ import me.illia.practice.Practice
 import me.illia.practice.managers.NameTagManager
 import me.illia.practice.managers.RankManager
 import me.illia.practice.storage.Rank
+import net.luckperms.api.LuckPermsProvider
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -15,25 +16,27 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.*
 
 object PlayerEventListener: Listener {
+    val luckPerms = LuckPermsProvider.get()
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         event.player.sendMessage("${ChatColor.GOLD}Hey, Bro ;)")
         val main: Practice = Practice.INSTANCE
-        val config: FileConfiguration = main.config
         val player = event.player
-        val uuid = player.uniqueId.toString()
 
-        if(!config.contains(uuid)) {
-            RankManager().setRank(Rank.USER, player)
-        }
+        val user = luckPerms.userManager.getUser(event.player.uniqueId)
+        val prefix = user?.cachedData?.metaData?.prefix
 
-        NameTagManager().setNameTags(player)
+        player.isCustomNameVisible = true
+        player.customName = prefix + " | " + player.displayName
     }
 
     @EventHandler
     fun onPlayerChat(event: AsyncPlayerChatEvent) {
-        event.format = RankManager().getRank(event.player).prefix + "${ChatColor.WHITE} | "  + event.player.name + ": " + event.message
+        val user = luckPerms.userManager.getUser(event.player.uniqueId)
+        val cashedData = user?.cachedData?.metaData
+
+        event.format = cashedData?.prefix + "${ChatColor.WHITE} | "  + event.player.name + ": " + event.message
     }
 
     @EventHandler
